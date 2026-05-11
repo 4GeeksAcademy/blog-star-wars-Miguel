@@ -1,22 +1,36 @@
-import React from 'react'
+import React, { createContext, useReducer } from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'  // Global styles for your application
-import { RouterProvider } from "react-router-dom";  // Import RouterProvider to use the router
-import { router } from "./routes";  // Import the router configuration
-import { StoreProvider } from './hooks/useGlobalReducer';  // Import the StoreProvider for global state management
+import {
+  RouterProvider,
+} from "react-router-dom";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+import './index.css'
+
+import storeReducer, { initialStore } from './store'
+
+import { router } from './routes'
+
+export const Context = createContext(null);
 
 const Main = () => {
-    return (
-        <React.StrictMode>  
-            {/* Provide global state to all components */}
-            <StoreProvider> 
-                {/* Set up routing for the application */} 
-                <RouterProvider router={router}>
-                </RouterProvider>
-            </StoreProvider>
-        </React.StrictMode>
-    );
+
+  const [store, dispatch] = useReducer(
+    storeReducer,
+    initialStore()
+  );
+
+  return (
+    <Context.Provider value={{ store, dispatch }}>
+      <RouterProvider router={router} />
+    </Context.Provider>
+  )
 }
 
-// Render the Main component into the root DOM element.
-ReactDOM.createRoot(document.getElementById('root')).render(<Main />)
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <Main />
+  </React.StrictMode>,
+)

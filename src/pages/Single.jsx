@@ -1,37 +1,127 @@
-// Import necessary hooks and components from react-router-dom and other libraries.
-import { Link, useParams } from "react-router-dom";  // To use link for navigation and useParams to get URL parameters
-import PropTypes from "prop-types";  // To define prop types for this component
-import rigoImageUrl from "../assets/img/rigo-baby.jpg"  // Import an image asset
-import useGlobalReducer from "../hooks/useGlobalReducer";  // Import a custom hook for accessing the global state
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-// Define and export the Single component which displays individual item details.
-export const Single = props => {
-  // Access the global state using the custom hook.
-  const { store } = useGlobalReducer()
+const starwarsImages = {
 
-  // Retrieve the 'theId' URL parameter using useParams hook.
-  const { theId } = useParams()
-  const singleTodo = store.todos.find(todo => todo.id === parseInt(theId));
+    people: {
 
-  return (
-    <div className="container text-center">
-      {/* Display the title of the todo element dynamically retrieved from the store using theId. */}
-      <h1 className="display-4">Todo: {singleTodo?.title}</h1>
-      <hr className="my-4" />  {/* A horizontal rule for visual separation. */}
+        1: "https://lumiere-a.akamaihd.net/v1/images/luke-skywalker-main_d2b0d16f.jpeg",
 
-      {/* A Link component acts as an anchor tag but is used for client-side routing to prevent page reloads. */}
-      <Link to="/">
-        <span className="btn btn-primary btn-lg" href="#" role="button">
-          Back home
-        </span>
-      </Link>
-    </div>
-  );
+        2: "https://lumiere-a.akamaihd.net/v1/images/c-3po-main_d6850e28.jpeg",
+
+        3: "https://lumiere-a.akamaihd.net/v1/images/r2-d2-main_3d0e8c24.jpeg",
+
+        4: "https://lumiere-a.akamaihd.net/v1/images/darth-vader-main_4560aff7.jpeg",
+
+        5: "https://lumiere-a.akamaihd.net/v1/images/leia-organa-main_5116879f.jpeg",
+
+        10: "https://lumiere-a.akamaihd.net/v1/images/obi-wan-kenobi-main_ae5878d7.jpeg"
+
+    },
+
+    planets: {
+
+        1: "https://lumiere-a.akamaihd.net/v1/images/tatooine-main_9542b896.jpeg",
+
+        2: "https://lumiere-a.akamaihd.net/v1/images/alderaan-main_3001d277.jpeg"
+
+    },
+
+    vehicles: {
+
+        4: "https://lumiere-a.akamaihd.net/v1/images/x-wing-starfighter_1_6e27d095.jpeg",
+
+        6: "https://lumiere-a.akamaihd.net/v1/images/tie-fighter-main_7c7ac3a9.jpeg"
+    }
+
 };
 
-// Use PropTypes to validate the props passed to this component, ensuring reliable behavior.
-Single.propTypes = {
-  // Although 'match' prop is defined here, it is not used in the component.
-  // Consider removing or using it as needed.
-  match: PropTypes.object
+export const Single = () => {
+
+    const params = useParams();
+
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+
+        fetch(`https://www.swapi.tech/api/${params.type}/${params.uid}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data.result.properties);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }, [params]);
+
+    if (!data) {
+        return <h1 className="text-center mt-5">Loading...</h1>;
+    }
+
+    const image =
+        starwarsImages?.[params.type]?.[params.uid] ||
+        "https://starwarsblog.starwars.com/wp-content/uploads/2015/11/star-wars-logo-1536x864-959818851016.jpg";
+
+    return (
+
+        <div className="container mt-5">
+
+            <div className="row align-items-center">
+
+                <div className="col-md-6">
+
+                    <img
+                        src={image}
+                        className="img-fluid rounded shadow"
+                    />
+
+                </div>
+
+                <div className="col-md-6">
+
+                    <h1 className="display-4">
+                        {data.name}
+                    </h1>
+
+                    <p className="mt-4 text-muted">
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Voluptates, officiis. Ipsum molestias nemo expedita
+                        distinctio rem sapiente natus molestiae pariatur.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <hr className="my-5" />
+
+            <div className="row text-danger text-center">
+
+                <div className="col">
+                    <h5>Name</h5>
+                    <p>{data.name}</p>
+                </div>
+
+                <div className="col">
+                    <h5>Gender</h5>
+                    <p>{data.gender}</p>
+                </div>
+
+                <div className="col">
+                    <h5>Hair Color</h5>
+                    <p>{data.hair_color}</p>
+                </div>
+
+                <div className="col">
+                    <h5>Eye Color</h5>
+                    <p>{data.eye_color}</p>
+                </div>
+
+            </div>
+
+        </div>
+    );
 };

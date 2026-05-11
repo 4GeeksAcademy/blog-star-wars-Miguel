@@ -1,0 +1,44 @@
+body{
+    background: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+    color: rgb(220, 53, 69);
+    font-weight: bold;
+}
+
+.card{
+    min-width: 18rem;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.2);
+}
+
+.scroll-container{
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.scroll-container::-webkit-scrollbar{
+    height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb{
+    background: #999;
+    border-radius: 10px;
+}
+
+.navbar{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.card img{
+    height: 300px;
+    object-fit: cover;
+}
+
+.dropdown-menu{
+    min-width: 250px;
+}
