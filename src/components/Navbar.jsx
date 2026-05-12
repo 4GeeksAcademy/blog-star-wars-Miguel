@@ -8,13 +8,14 @@ const Navbar = () => {
 
     return (
 
-        <nav className="navbar navbar-light bg-light">
+        <nav className="navbar navbar-dark px-4">
 
             <Link to="/">
 
                 <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Star_Wars_Logo.svg"
-                    width="120"
+                    src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Star_Wars_Logo..png"
+                    alt="Star Wars"
+                    className="navbar-logo"
                 />
 
             </Link>
@@ -25,42 +26,44 @@ const Navbar = () => {
                     className="btn btn-warning dropdown-toggle"
                     data-bs-toggle="dropdown"
                 >
-
                     Favorites {store.favorites.length}
-
                 </button>
 
                 <ul className="dropdown-menu dropdown-menu-end">
 
                     {
                         store.favorites.length === 0
-                        ?
-                        <li className="dropdown-item">
-                            No favorites yet
-                        </li>
-                        :
-                        store.favorites.map((item, index) => (
-
-                            <li
-                                key={index}
-                                className="dropdown-item d-flex justify-content-between align-items-center"
-                            >
-
-                                {item}
-
-                                <i
-                                    className="fa-solid fa-trash"
-                                    style={{cursor:"pointer"}}
-                                    onClick={() =>
-                                        dispatch({
-                                            type: "remove_favorite",
-                                            payload: item
-                                        })
-                                    }
-                                ></i>
-
+                            ?
+                            <li className="dropdown-item text-center">
+                                No favorites yet
                             </li>
-                        ))
+                            :
+                            store.favorites.map((item, index) => (
+
+                                <li
+                                    key={index}
+                                    className="dropdown-item d-flex justify-content-between align-items-center"
+                                >
+
+                                    <span>
+                                        <i className="fa-solid fa-heart text-warning me-2"></i>
+                                        {item}
+                                    </span>
+
+                                    <i
+                                        className="fa-solid fa-trash"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() =>
+                                            dispatch({
+                                                type: "remove_favorite",
+                                                payload: item
+                                            })
+                                        }
+                                    ></i>
+
+                                </li>
+
+                            ))
                     }
 
                 </ul>
@@ -68,7 +71,7 @@ const Navbar = () => {
             </div>
 
         </nav>
-    )
-}
+    );
+};
 
 export default Navbar;

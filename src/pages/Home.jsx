@@ -41,7 +41,9 @@ export const Home = () => {
 
         <div className="container mt-4">
 
-            <h1 className="text-danger mb-3">Characters</h1>
+            <h1 className="section-title">
+            Characters
+            </h1>
 
             <div className="scroll-container">
 
@@ -58,7 +60,9 @@ export const Home = () => {
 
             </div>
 
-            <h1 className="text-danger mb-3 mt-5">Planets</h1>
+            <h1 className="section-title">
+             Planets
+            </h1>
 
             <div className="scroll-container">
 
@@ -75,7 +79,9 @@ export const Home = () => {
 
             </div>
 
-            <h1 className="text-danger mb-3 mt-5">Vehicles</h1>
+            <h1 className="section-title">
+            Vehicles
+            </h1>
 
             <div className="scroll-container">
 
